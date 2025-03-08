@@ -20,7 +20,7 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
         (question) =>
             question.body != "" ||
             question.expected != "" ||
-            question.options.length > 0,
+            question.options.length > 0
     );
 }
 
@@ -30,7 +30,7 @@ export function getNonEmptyQuestions(questions: Question[]): Question[] {
  */
 export function findQuestion(
     questions: Question[],
-    id: number,
+    id: number
 ): Question | null {
     const foundQuestion = questions.find((question) => question.id === id);
     return foundQuestion || null;
@@ -113,7 +113,7 @@ export function makeAnswers(questions: Question[]): Answer[] {
         questionId: question.id,
         text: "",
         submitted: false,
-        correct: false,
+        correct: false
     }));
 }
 
@@ -124,7 +124,7 @@ export function makeAnswers(questions: Question[]): Answer[] {
 export function publishAll(questions: Question[]): Question[] {
     return questions.map((question) => ({
         ...question,
-        published: true,
+        published: true
     }));
 }
 
@@ -149,7 +149,7 @@ export function addNewQuestion(
     questions: Question[],
     id: number,
     name: string,
-    type: QuestionType,
+    type: QuestionType
 ): Question[] {
     const blankQuestion = makeBlankQuestion(id, name, type);
     return [...questions, blankQuestion];
@@ -163,7 +163,7 @@ export function addNewQuestion(
 export function renameQuestionById(
     questions: Question[],
     targetId: number,
-    newName: string,
+    newName: string
 ): Question[] {
     return questions.map((question) => {
         if (question.id === targetId) {
@@ -183,7 +183,7 @@ export function renameQuestionById(
 export function changeQuestionTypeById(
     questions: Question[],
     targetId: number,
-    newQuestionType: QuestionType,
+    newQuestionType: QuestionType
 ): Question[] {
     return questions.map((question) => {
         if (question.id === targetId) {
@@ -211,7 +211,7 @@ export function editOption(
     questions: Question[],
     targetId: number,
     targetOptionIndex: number,
-    newOption: string,
+    newOption: string
 ): Question[] {
     return questions.map((question) => {
         if (question.id === targetId) {
@@ -220,7 +220,7 @@ export function editOption(
                 newQuestion.options = [...question.options, newOption];
             } else {
                 newQuestion.options = question.options.map((option, index) =>
-                    index === targetOptionIndex ? newOption : option,
+                    index === targetOptionIndex ? newOption : option
                 );
             }
             return newQuestion;
@@ -238,7 +238,7 @@ export function editOption(
 export function duplicateQuestionInArray(
     questions: Question[],
     targetId: number,
-    newId: number,
+    newId: number
 ): Question[] {
     return questions.reduce<Question[]>((newQuestions, question) => {
         if (question.id == targetId) {
