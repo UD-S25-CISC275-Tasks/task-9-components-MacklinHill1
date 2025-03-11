@@ -12,29 +12,41 @@ export function d6(): number {
 }
 
 export function TwoDice(): React.JSX.Element {
-    const [leftDie, setLeftDie] = useState<number>(d6());
-    const [rightDie, setRightDie] = useState<number>(d6());
+    const firstRoll = d6();
+    let secondRoll = d6();
+    if (firstRoll === secondRoll) {
+        secondRoll = (firstRoll % 6) + 1;
+    }
 
-    const rollLeftDie = () => {
-        setLeftDie(d6());
-    };
+    const [leftDie, setLeftDie] = useState<number>(firstRoll);
+    const [rightDie, setRightDie] = useState<number>(secondRoll);
 
-    const rollRightDie = () => {
-        setRightDie(d6());
-    };
+    let message = "";
+    if (leftDie === rightDie) {
+        message = leftDie === 1 ? "Lose" : "Win";
+    }
 
-    const isGameLost = leftDie === 1 && rightDie === 1;
-    const isGameWon = leftDie === rightDie && leftDie !== 1;
     return (
         <div>
-            <h3>Roll the Dice</h3>
-            <div data-testid="left-die">Left Die: {leftDie}</div>
-            <div data-testid="right-die">Right Die: {rightDie}</div>
+            <span data-testid="left-die">{leftDie}</span>
+            <Button
+                onClick={() => {
+                    setLeftDie(d6());
+                }}
+            >
+                Roll Left
+            </Button>
 
-            {isGameLost && <p>Lose</p>}
-            {isGameWon && <p>Win</p>}
-            <Button onClick={rollLeftDie}>Roll Left</Button>
-            <Button onClick={rollRightDie}>Roll Right</Button>
+            <span data-testid="right-die">{rightDie}</span>
+            <Button
+                onClick={() => {
+                    setRightDie(d6());
+                }}
+            >
+                Roll Right
+            </Button>
+
+            {message && <div>{message}</div>}
         </div>
     );
 }
